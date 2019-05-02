@@ -144,26 +144,28 @@ namespace GenericBinarySearchTree.Models
                     {
                         // Since the right child's left node is null, we can simply
                         // pull up the right child.
-                        //BinaryNode<T> tempLeft = root.LeftNode;
                         root = root.RightNode;
-                        //root.LeftNode = tempLeft;
                     }
                 }
                 else if (root.LeftNode != null)
                 {
+                    // Only the Left Child Node exists.
                     root = root.LeftNode;
                 }
                 else if (root.RightNode != null)
                 {
+                    // Only the Right Child Node exists.
                     root = root.RightNode;
                 }
             }
             else if (comparisonResult > 0)
             {
+                // Look left.
                 root.LeftNode = Remove(root: root.LeftNode, elementToRemove: elementToRemove);
             }
             else if (comparisonResult < 0)
             {
+                // Look right.
                 root.RightNode = Remove(root: root.RightNode, elementToRemove: elementToRemove);
             }
             return root;
@@ -198,11 +200,13 @@ namespace GenericBinarySearchTree.Models
             }
             else if (root.RightNode != null)
             {
+                // Left node is null, but right node is not.
                 root = root.RightNode;
                 return root;
             }
             else
             {
+                // Both child nodes are null.
                 BinaryNode<T> tempBinaryNode =
                     new BinaryNode<T>(root.Element);
                 root = null;
@@ -413,6 +417,7 @@ namespace GenericBinarySearchTree.Models
                 GetLevelOrderTraversalHelper(root: root.LeftNode, queue: queue, level: level + 1);
                 GetLevelOrderTraversalHelper(root: root.RightNode, queue: queue, level: level + 1);
             }
+            throw new NotImplementedException();
         }
 
         public int GetHeight()
