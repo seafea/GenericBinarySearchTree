@@ -159,5 +159,21 @@ namespace TestGenericBinarySearchTree
             BinarySearchTree<int> emptyTree = new BinarySearchTree<int>();
             Assert.True(emptyTree.IsComplete());
         }
+
+        [Test]
+        public void TestClear()
+        {
+            BinarySearchTree<int> testBST = new BinarySearchTree<int>();
+            testBST.Insert(elementToInsert: 50);
+            testBST.Insert(elementToInsert: 30);
+            testBST.Insert(elementToInsert: 40);
+            testBST.Insert(elementToInsert: 75);
+            testBST.Insert(elementToInsert: 60);
+            testBST.Insert(elementToInsert: 55);
+            testBST.Insert(elementToInsert: 70);
+            testBST.Insert(elementToInsert: 80);
+            testBST.Clear();
+            Assert.AreEqual(0, testBST.GetNumberOfElements());
+        }
     }
 }
