@@ -22,6 +22,8 @@ namespace GenericBinarySearchTree
             testBST.Insert(elementToInsert: 70);
             testBST.Insert(elementToInsert: 80);
             Console.WriteLine(testBST.ToString());
+            Queue<BinaryNode<int>> queue = testBST.GetLevelOrderTraversal();
+            Console.WriteLine("Height is " + testBST.GetHeight());
             Console.ReadLine();
         }
     }
