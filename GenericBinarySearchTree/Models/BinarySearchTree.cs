@@ -321,11 +321,21 @@ namespace GenericBinarySearchTree.Models
 
         public bool IsComplete()
         {
+            if (Root == null)
+            {
+                return true;
+            }
             throw new NotImplementedException();
         }
 
         private bool IsCompleteHelper(BinaryNode<T> root)
         {
+            // Complete if all the levels except the last are completely full,
+            // and the last level has all its nodes to the left side.
+            if (root != null)
+            {
+                
+            }
             throw new NotImplementedException();    
         }
 
