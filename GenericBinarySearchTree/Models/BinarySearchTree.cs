@@ -415,5 +415,30 @@ namespace GenericBinarySearchTree.Models
             }
             return maxHeight;
         }
+
+        public void Clear()
+        {
+            Root = ClearHelper(root: Root);
+        }
+
+        private BinaryNode<T> ClearHelper(BinaryNode<T> root)
+        {
+            if (root == null)
+            {
+                return root;
+            }
+            else if (root != null && (root.LeftNode == null) && (root.RightNode == null))
+            {
+                root = null;
+                return root;
+            }
+            else
+            {
+                root.LeftNode = ClearHelper(root: root.LeftNode);
+                root.RightNode = this.ClearHelper(root: root.RightNode);
+                root = null;
+                return root;
+            }
+        }
     }
 }
