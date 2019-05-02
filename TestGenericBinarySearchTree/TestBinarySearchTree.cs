@@ -73,10 +73,16 @@ namespace TestGenericBinarySearchTree
             testBST.Insert(elementToInsert: 70);
             testBST.Insert(elementToInsert: 80);
             Assert.True(testBST.Remove(elementToRemove: 40));
-            Assert.IsNull(testBST.GetRootNode().LeftNode.RightNode);
-            Assert.False(testBST.Remove(elementToRemove: 100));
             Assert.AreEqual(7, testBST.GetNumberOfElements());
-
+            Assert.True(testBST.Remove(elementToRemove: 50));
+            Assert.AreEqual(55, testBST.GetRootNode().Element);
+            Assert.True(testBST.Remove(elementToRemove: 55));
+            Assert.AreEqual(60, testBST.GetRootNode().Element);
+            Assert.True(testBST.Remove(elementToRemove: 60));
+            Assert.AreEqual(70, testBST.GetRootNode().Element);
+            Assert.True(testBST.Remove(elementToRemove: 70));
+            Assert.AreEqual(75, testBST.GetRootNode().Element);
+            Assert.False(testBST.Remove(elementToRemove: 70));
         }
 
         [Test]
