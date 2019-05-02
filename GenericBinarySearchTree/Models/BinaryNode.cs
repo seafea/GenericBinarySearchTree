@@ -37,6 +37,11 @@ namespace GenericBinarySearchTree.Models
             return true;
         }
 
+        public bool IsFull()
+        {
+            return ((LeftNode == null && RightNode == null) || (LeftNode != null && RightNode != null));
+        }
+
         public string ToString(int level)
         {
             string returnString = String.Empty;
