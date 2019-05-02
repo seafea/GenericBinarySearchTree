@@ -119,12 +119,17 @@ namespace GenericBinarySearchTree.Models
             int comparisonResult = root.CompareTo(elementToRemove);
             if (comparisonResult == 0)
             {
+                // found the element to remove.
                 if (root.LeftNode == null && root.RightNode == null)
                 {
+                    // both children are null, so removal is simple.
                     root = null;
                 }
                 else if (root.LeftNode != null && root.RightNode != null)
                 {
+                    // There are two children here, so removal is a bit
+                    // more complicated.
+                    // checking to see if the right child's left node is null.
                     bool simplePullup = (root.RightNode.LeftNode == null);
                     if (!simplePullup)
                     {
@@ -137,9 +142,11 @@ namespace GenericBinarySearchTree.Models
                     }
                     else
                     {
-                        BinaryNode<T> tempLeft = root.LeftNode;
+                        // Since the right child's left node is null, we can simply
+                        // pull up the right child.
+                        //BinaryNode<T> tempLeft = root.LeftNode;
                         root = root.RightNode;
-                        root.LeftNode = tempLeft;
+                        //root.LeftNode = tempLeft;
                     }
                 }
                 else if (root.LeftNode != null)
