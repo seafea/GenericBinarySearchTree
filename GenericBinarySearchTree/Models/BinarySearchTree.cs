@@ -325,18 +325,43 @@ namespace GenericBinarySearchTree.Models
             {
                 return true;
             }
-            throw new NotImplementedException();
+            int maxHeight = this.GetHeight();
+            return IsCompleteHelper(root: Root, currHeight: 0, maxHeight: maxHeight);
         }
 
-        private bool IsCompleteHelper(BinaryNode<T> root)
+        private bool IsCompleteHelper(BinaryNode<T> root, int currHeight, int maxHeight)
         {
             // Complete if all the levels except the last are completely full,
             // and the last level has all its nodes to the left side.
-            if (root != null)
+            if (root == null)
             {
-                
+                return true;
             }
-            throw new NotImplementedException();    
+            else
+            {
+                currHeight++;
+                if (currHeight == maxHeight)
+                {
+                    if (!root.IsFull())
+                    {
+                        return false;
+                    }
+                }
+                else if (currHeight == maxHeight - 1)
+                {
+                    if (!this.IsFull() && root.LeftNode == null)
+                    {
+                        return false;
+                    }
+                }
+                bool result = true;
+                result = IsCompleteHelper(root: root.LeftNode, currHeight: currHeight, maxHeight: maxHeight);
+                if (result)
+                {
+                    result = IsCompleteHelper(root: root.RightNode, currHeight: currHeight, maxHeight: maxHeight);
+                }
+                return result;
+            }
         }
 
         public int GetNumberOfElements()
