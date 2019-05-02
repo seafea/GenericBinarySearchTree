@@ -360,5 +360,46 @@ namespace GenericBinarySearchTree.Models
         {
             return Root;
         }
+
+        public Queue<BinaryNode<T>> GetLevelOrderTraversal()
+        {
+            if (Root == null)
+            {
+                return null;
+            }
+            Queue<BinaryNode<T>> returnQueue = new Queue<BinaryNode<T>>();
+            GetLevelOrderTraversalHelper(root: Root, queue: returnQueue, level: 0);
+            return returnQueue;
+        }
+
+        private void GetLevelOrderTraversalHelper(BinaryNode<T> root, Queue<BinaryNode<T>> queue, int level)
+        {
+            if (root != null)
+            {
+                Console.WriteLine("Adding " + root.Element + " at level " + level);
+                queue.Enqueue(root);
+                GetLevelOrderTraversalHelper(root: root.LeftNode, queue: queue, level: level + 1);
+                GetLevelOrderTraversalHelper(root: root.RightNode, queue: queue, level: level + 1);
+            }
+        }
+
+        public int GetHeight()
+        {
+            return GetHeightHelper(root: Root, height: 0, maxHeight: 0);
+        }
+        private int GetHeightHelper(BinaryNode<T> root, int height, int maxHeight)
+        {
+            if (root != null)
+            {
+                height++;
+                if (height > maxHeight)
+                {
+                    maxHeight = height;
+                }
+                maxHeight = this.GetHeightHelper(root: root.LeftNode, height: height, maxHeight: maxHeight);
+                maxHeight = this.GetHeightHelper(root: root.RightNode, height: height, maxHeight: maxHeight);
+            }
+            return maxHeight;
+        }
     }
 }
