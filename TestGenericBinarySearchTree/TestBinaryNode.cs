@@ -82,5 +82,20 @@ namespace TestGenericBinarySearchTree
                 new BinaryNode<int>(element: 20, leftNode: testLeftNode, rightNode: testRightNode);
             Assert.AreEqual("20\n 10\n 30\n", testRootNode.ToString(level: 0));
         }
+
+        [Test]
+        public void TestIsFull()
+        {
+            BinaryNode<int> rightNode = new BinaryNode<int>(30);
+            BinaryNode<int> notFullNode = new BinaryNode<int>(element: 20, leftNode: null, rightNode: rightNode);
+            Assert.False(notFullNode.IsFull());
+            BinaryNode<int> fullRightNode = new BinaryNode<int>(element: 30);
+            BinaryNode<int> fullLeftNode = new BinaryNode<int>(element: 10);
+            BinaryNode<int> fullNode = new BinaryNode<int>(
+                element: 20,
+                leftNode: fullLeftNode,
+                rightNode: fullRightNode);
+            Assert.True(fullNode.IsFull());
+        }
     }
 }
