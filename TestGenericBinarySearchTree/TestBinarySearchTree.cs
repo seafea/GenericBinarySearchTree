@@ -175,5 +175,20 @@ namespace TestGenericBinarySearchTree
             testBST.Clear();
             Assert.AreEqual(0, testBST.GetNumberOfElements());
         }
+
+        [Test]
+        public void TestInsertWithPool()
+        {
+            BinarySearchTree<int> testBST = new BinarySearchTree<int>(poolSize: 10);
+            Assert.True(testBST.Insert(10));
+            Assert.True(testBST.Remove(10));
+            Assert.AreEqual(10, testBST.GetPool().Element);
+        }
+
+        [Test]
+        public void TestRemoveWithPool()
+        {
+            
+        }
     }
 }

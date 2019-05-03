@@ -138,8 +138,47 @@ namespace GenericBinarySearchTree.Models
             // Node does not exist in pool.
         }
 
-        private void InsertIntoPool(BinaryNode<T> poolPosition, BinaryNode<T> nodeToInsert)
+        private void InsertIntoPool(BinaryNode<T> nodeToInsert)
         {
+            nodeToInsert.LeftNode = null;
+            nodeToInsert.RightNode = null;
+            Pool = InsertIntoPoolHelper(poolPosition: Pool, nodeToInsert: nodeToInsert, currPosition: 0);
+        }
+
+        private BinaryNode<T> InsertIntoPoolHelper(BinaryNode<T> poolPosition, BinaryNode<T> nodeToInsert, int currPosition)
+        {
+            currPosition++;
+            if (poolPosition == null)
+            {
+                poolPosition = nodeToInsert;
+                return poolPosition;
+            }
+            int comparisonResult = poolPosition.CompareTo(element: nodeToInsert.Element);
+            if (comparisonResult > 0)
+            {
+                // insert, here and move the current one right.
+                BinaryNode<T> tempRightNode = poolPosition.RightNode;
+                poolPosition = nodeToInsert;
+                poolPosition.RightNode = tempRightNode;
+            }
+            else if (comparisonResult < 0)
+            {
+                // keep going if we haven't exceeded the pool size.
+                if (currPosition < PoolSize)
+                {
+                    poolPosition.RightNode = InsertIntoPoolHelper(
+                        poolPosition: poolPosition.RightNode,
+                        nodeToInsert: nodeToInsert,
+                        currPosition: currPosition);
+                }
+            }
+            else if (comparisonResult == 0)
+            {
+                // It's already in the pool. This shouldn't happen.
+                return poolPosition;
+            }
+            // Node is already in the pool or pool is at capacity.
+            return poolPosition;
         }
 
         public bool Remove(T elementToRemove)
@@ -166,6 +205,10 @@ namespace GenericBinarySearchTree.Models
                 if (root.LeftNode == null && root.RightNode == null)
                 {
                     // both children are null, so removal is simple.
+                    if (PoolSize > 0)
+                    {
+                        InsertIntoPool(nodeToInsert: root);
+                    }
                     root = null;
                 }
                 else if (root.LeftNode != null && root.RightNode != null)
@@ -181,23 +224,39 @@ namespace GenericBinarySearchTree.Models
                         BinaryNode<T> tempRight = root.RightNode;
                         newRoot.LeftNode = tempLeft;
                         newRoot.RightNode = tempRight;
+                        if (PoolSize > 0)
+                        {
+                            InsertIntoPool(nodeToInsert: root);
+                        }
                         root = newRoot;
                     }
                     else
                     {
                         // Since the right child's left node is null, we can simply
                         // pull up the right child.
+                        if (PoolSize > 0)
+                        {
+                            InsertIntoPool(nodeToInsert: root);
+                        }
                         root = root.RightNode;
                     }
                 }
                 else if (root.LeftNode != null)
                 {
                     // Only the Left Child Node exists.
+                    if (PoolSize > 0)
+                    {
+                        InsertIntoPool(nodeToInsert: root);
+                    }
                     root = root.LeftNode;
                 }
                 else if (root.RightNode != null)
                 {
                     // Only the Right Child Node exists.
+                    if (PoolSize > 0)
+                    {
+                        InsertIntoPool(nodeToInsert: root);
+                    }
                     root = root.RightNode;
                 }
             }
