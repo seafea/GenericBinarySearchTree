@@ -25,6 +25,10 @@ namespace GenericBinarySearchTree.Models
 
         public BinarySearchTree(int poolSize)
         {
+            if (poolSize < 0)
+            {
+                throw new Exception(message: "Exception: PoolSize cannot be less than zero.");
+            }
             this.Root = null;
             this.Pool = null;
             this.PoolSize = poolSize;
@@ -81,7 +85,14 @@ namespace GenericBinarySearchTree.Models
         {
             if (root == null)
             {
-                return new BinaryNode<T>(element: elementToInsert, leftNode: null, rightNode: null);
+                if (PoolSize == 0)
+                {
+                    return new BinaryNode<T>(element: elementToInsert, leftNode: null, rightNode: null);
+                }
+                else
+                {
+                    return InsertFromPool(poolPosition: Pool, elementToInsert: elementToInsert);
+                }
             }
             int comparisonResult = root.CompareTo(elementToInsert);
             if (comparisonResult > 0)
@@ -101,7 +112,34 @@ namespace GenericBinarySearchTree.Models
 
         private BinaryNode<T> InsertFromPool(BinaryNode<T> poolPosition, T elementToInsert)
         {
-            throw new NotImplementedException();
+            if (poolPosition != null)
+            {
+                int comparisonResult = poolPosition.CompareTo(element: elementToInsert);
+                if (comparisonResult == 0)
+                {
+                    // Element found in pool.
+                    BinaryNode<T> returnNode = poolPosition;
+                    poolPosition = poolPosition.RightNode;
+                    returnNode.RightNode = null;
+                    return returnNode;
+                }
+                else if (comparisonResult < 0)
+                {
+                    // need to look right.
+                    return InsertFromPool(poolPosition: poolPosition.RightNode, elementToInsert: elementToInsert);
+                }
+                else if (comparisonResult > 0)
+                {
+                    // Node does not exist in pool.
+                    return new BinaryNode<T>(element: elementToInsert);
+                }
+            }
+            return new BinaryNode<T>(element: elementToInsert);
+            // Node does not exist in pool.
+        }
+
+        private void InsertIntoPool(BinaryNode<T> poolPosition, BinaryNode<T> nodeToInsert)
+        {
         }
 
         public bool Remove(T elementToRemove)
@@ -216,14 +254,6 @@ namespace GenericBinarySearchTree.Models
                     new BinaryNode<T>(root.Element);
                 root = null;
                 return tempBinaryNode;
-            }
-        }
-
-        private void AddNodeToPoolHelper(BinaryNode<T>)
-        {
-            if (PoolSize > 0)
-            {
-                
             }
         }
 
@@ -393,6 +423,11 @@ namespace GenericBinarySearchTree.Models
             return GetNumberOfElementsHelper(root: Root);
         }
 
+        private int GetNumberOfPoolElements()
+        {
+            return this.GetNumberOfElementsHelper(root: Pool);
+        }
+
         private int GetNumberOfElementsHelper(BinaryNode<T> root)
         {
             int result = 0;
@@ -410,10 +445,16 @@ namespace GenericBinarySearchTree.Models
             return Root;
         }
 
+        public BinaryNode<T> GetPool()
+        {
+            return Pool;
+        }
+
         public int GetHeight()
         {
             return GetHeightHelper(root: Root, height: 0, maxHeight: 0);
         }
+
         private int GetHeightHelper(BinaryNode<T> root, int height, int maxHeight)
         {
             if (root != null)
