@@ -12,7 +12,7 @@ namespace GenericBinarySearchTree.Models
     {
         private BinaryNode<T> Root { get; set; }
 
-        private BinaryNode<T> Pool { get; }
+        private BinaryNode<T> Pool { get; set; }
 
         private int PoolSize { get; }
 
@@ -97,6 +97,11 @@ namespace GenericBinarySearchTree.Models
                 return root;
             }
             return root;
+        }
+
+        private BinaryNode<T> InsertFromPool(BinaryNode<T> poolPosition, T elementToInsert)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Remove(T elementToRemove)
@@ -211,6 +216,14 @@ namespace GenericBinarySearchTree.Models
                     new BinaryNode<T>(root.Element);
                 root = null;
                 return tempBinaryNode;
+            }
+        }
+
+        private void AddNodeToPoolHelper(BinaryNode<T>)
+        {
+            if (PoolSize > 0)
+            {
+                
             }
         }
 
